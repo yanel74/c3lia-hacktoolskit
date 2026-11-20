@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090611">
+  <meta name="description" content="C3LIA Hacktoolkit — boîte à outils de cybersécurité locale et responsable.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <title>C3LIA HACKTOOLKIT</title>
+</head>
+<body>
+  <div class="ambient a1"></div><div class="ambient a2"></div>
+  <header class="topbar glass">
+    <a class="brand" href="#" aria-label="C3LIA accueil"><span class="brand-mark">C</span><span><b>C3LIA</b><small>HACKTOOLKIT</small></span></a>
+    <div class="top-right"><span class="status-dot"></span><span>LOCAL MODE</span><button id="installBtn" class="install hidden">Installer</button></div>
+  </header>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow"><span></span> RESPONSIBLE SECURITY TOOLKIT · V1.0</div>
+      <h1>Think sharp.<br><em>Stay secure.</em></h1>
+      <p>Des outils pratiques qui fonctionnent directement dans ton navigateur. Tes données restent sur ton appareil.</p>
+      <div class="hero-actions"><button class="primary" data-open="hash">Ouvrir les outils <b>↗</b></button><span class="micro">Aucune inscription · Aucun compte requis</span></div>
+    </section>
+    <section class="stats">
+      <div class="glass stat"><strong>06</strong><span>OUTILS LOCAUX</span></div>
+      <div class="glass stat"><strong>0</strong><span>DONNÉE ENVOYÉE</span></div>
+      <div class="glass stat"><strong>100%</strong><span>IPHONE FRIENDLY</span></div>
+    </section>
+    <div class="section-head"><div><div class="eyebrow">WORKSPACE</div><h2>Command center</h2></div><span class="live-pill">● READY</span></div>
+    <nav class="tool-grid" aria-label="Outils">
+      <button class="tool-card glass active" data-open="hash"><span class="tool-icon purple">⌗</span><b>Hash generator</b><small>SHA-256 · SHA-384 · SHA-512</small><span class="arrow">↗</span></button>
+      <button class="tool-card glass" data-open="jwt"><span class="tool-icon blue">◇</span><b>JWT inspector</b><small>Décodage local de tokens</small><span class="arrow">↗</span></button>
+      <button class="tool-card glass" data-open="password"><span class="tool-icon pink">✳</span><b>Password lab</b><small>Générateur sécurisé</small><span class="arrow">↗</span></button>
+      <button class="tool-card glass" data-open="headers"><span class="tool-icon cyan">▤</span><b>HTTP headers</b><small>Analyse de configuration</small><span class="arrow">↗</span></button>
+      <button class="tool-card glass" data-open="stress"><span class="tool-icon orange">⌁</span><b>Stress-test planner</b><small>Plan de test autorisé</small><span class="arrow">↗</span></button>
+      <button class="tool-card glass" data-open="privacy"><span class="tool-icon green">◈</span><b>Privacy checklist</b><small>Hygiène numérique</small><span class="arrow">↗</span></button>
+    </nav>
+
+    <section class="workspace glass" id="workspace">
+      <div class="workspace-head"><div><div class="eyebrow">ACTIVE MODULE</div><h2 id="toolTitle">Hash generator</h2></div><span class="module-tag" id="moduleTag">CRYPTO</span></div>
+      <div class="tool-panel" id="panel-hash">
+        <label for="hashInput">Texte à hacher</label><textarea id="hashInput" rows="4" placeholder="Saisis un texte…"></textarea>
+        <div class="field-row"><label for="hashAlgo">Algorithme</label><select id="hashAlgo"><option>SHA-256</option><option>SHA-384</option><option>SHA-512</option></select></div>
+        <button class="primary full" id="hashBtn">Générer le hash</button>
+        <label>Résultat</label><div class="output" id="hashOutput">Le résultat apparaîtra ici.</div><button class="subtle" data-copy="hashOutput">Copier le résultat</button>
+        <p class="note">Le hachage est calculé localement via Web Crypto. Un hash n'est pas un chiffrement réversible.</p>
+      </div>
+      <div class="tool-panel hidden" id="panel-jwt">
+        <label for="jwtInput">JWT à inspecter</label><textarea id="jwtInput" rows="4" placeholder="colle.ici.tonJWT"></textarea>
+        <button class="primary full" id="jwtBtn">Décoder localement</button>
+        <div class="result-grid"><div><label>HEADER</label><pre class="output" id="jwtHeader">—</pre></div><div><label>PAYLOAD</label><pre class="output" id="jwtPayload">—</pre></div></div>
+        <p class="warning">⚠️ Le décodage ne vérifie pas la signature et ne prouve pas qu'un token est valide. Ne colle jamais un vrai token sensible dans un outil auquel tu ne fais pas confiance.</p>
+      </div>
+      <div class="tool-panel hidden" id="panel-password">
+        <div class="field-row"><label for="pwLength">Longueur</label><strong id="pwLengthValue">20</strong></div><input id="pwLength" type="range" min="12" max="64" value="20">
+        <div class="checks"><label><input type="checkbox" id="pwUpper" checked> Majuscules</label><label><input type="checkbox" id="pwLower" checked> Minuscules</label><label><input type="checkbox" id="pwNumbers" checked> Chiffres</label><label><input type="checkbox" id="pwSymbols" checked> Symboles</label></div>
+        <button class="primary full" id="pwBtn">Générer un mot de passe</button>
+        <label>Mot de passe</label><div class="output" id="pwOutput">••••••••••••••••••••</div><button class="subtle" data-copy="pwOutput">Copier</button>
+        <p class="note">Génération avec crypto.getRandomValues(). Enregistre ton mot de passe dans un gestionnaire fiable.</p>
+      </div>
+      <div class="tool-panel hidden" id="panel-headers">
+        <p class="note">Colle les en-têtes de réponse HTTP récupérés depuis ton propre serveur ou un audit autorisé.</p>
+        <label for="headersInput">En-têtes HTTP</label><textarea id="headersInput" rows="6" placeholder="strict-transport-security: max-age=31536000&#10;content-security-policy: default-src 'self'"></textarea>
+        <button class="primary full" id="headersBtn">Analyser les protections</button><div id="headersOutput" class="audit-list"></div>
+      </div>
+      <div class="tool-panel hidden" id="panel-stress">
+        <div class="callout"><b>Mode planification uniquement</b><p>Ce module aide à préparer un test de charge sur une infrastructure que tu possèdes ou pour laquelle tu as une autorisation écrite. Il ne lance aucune requête réseau.</p></div>
+        <label for="stressTarget">Cible autorisée (nom du service)</label><input id="stressTarget" placeholder="ex. staging.mon-projet.fr">
+        <div class="field-row"><label for="stressUsers">Utilisateurs virtuels prévus</label><input id="stressUsers" type="number" min="1" max="50" value="5"></div>
+        <div class="field-row"><label for="stressDuration">Durée (minutes)</label><input id="stressDuration" type="number" min="1" max="10" value="2"></div>
+        <button class="primary full" id="stressBtn">Créer mon plan de test</button><pre class="output" id="stressOutput">Ton plan apparaîtra ici.</pre>
+        <p class="warning">Aucun DDoS, flood, contournement de limite ou test de tiers. Pour un vrai test, utilise un outil de charge reconnu dans un environnement de staging, avec accord explicite, seuils convenus et arrêt d'urgence.</p>
+      </div>
+      <div class="tool-panel hidden" id="panel-privacy">
+        <p class="note">Coche les points déjà vérifiés sur ton compte ou ton projet.</p>
+        <div class="checklist" id="privacyList">
+          <label><input type="checkbox"> Authentification à deux facteurs activée</label>
+          <label><input type="checkbox"> Mots de passe uniques et robustes</label>
+          <label><input type="checkbox"> Sessions inconnues déconnectées</label>
+          <label><input type="checkbox"> Permissions des applications vérifiées</label>
+          <label><input type="checkbox"> Clés API stockées hors du code source</label>
+          <label><input type="checkbox"> Sauvegardes et mises à jour vérifiées</label>
+          <label><input type="checkbox"> Aucun secret publié dans un dépôt public</label>
+        </div><div class="progress"><span id="privacyProgress"></span></div><p class="note" id="privacyCount">0 / 7 vérifications terminées</p>
+      </div>
+    </section>
+    <section class="disclaimer glass"><span>◈</span><div><b>Usage responsable</b><p>C3LIA est un toolkit éducatif. Pas de vol de tokens, d'accès non autorisé, de DDoS ni d'automatisation de faux likes/abonnés. Utilise les outils uniquement sur tes données et systèmes autorisés.</p></div></section>
+    <footer><span>C3LIA HACKTOOLKIT</span><span>BUILT FOR RESPONSIBLE SECURITY · 1.0.0</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
